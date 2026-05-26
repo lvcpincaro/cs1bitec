@@ -35,6 +35,16 @@
 
         .activity-item h3 { color: #f4bebe; margin-bottom: 0.5rem; }
 
+        .upload-form { background: rgba(255, 255, 255, 0.05); padding: 2rem; border-radius: 15px; border: 1px solid rgba(244, 190, 190, 0.2); box-shadow: 0 8px 32px rgba(0, 0, 0, 0.15); margin-top: 3rem; }
+        .form-group { margin-bottom: 1.2rem; }
+        .form-group label { display: block; margin-bottom: 0.5rem; font-weight: 600; color: #f4bebe; font-size: 0.95rem; }
+        .form-group input { width: 100%; padding: 11px; background: #3a224a; border: 1px solid rgba(244, 190, 190, 0.3); color: white; border-radius: 6px; font-family: inherit; transition: 0.3s; }
+        .form-group input:focus { outline: none; border-color: #f4bebe; }
+        .form-group input[type="file"] { padding: 8px; background: rgba(255,255,255,0.01); cursor: pointer; }
+        
+        .btn-submit { background: #f4bebe; color: #442858; padding: 12px 25px; border: none; border-radius: 6px; font-size: 1rem; font-weight: 800; cursor: pointer; transition: 0.3s; width: 100%; margin-top: 0.5rem; }
+        .btn-submit:hover { background: white; }
+
         #click { display: none; }
         .menu { display: none; }
 
@@ -74,7 +84,7 @@
                     </div>
                 </a>
 
-                <a href="regform.html" style="text-decoration: none; color: inherit; display: block;">
+                <a href="registration.html" style="text-decoration: none; color: inherit; display: block;">
                     <div class="activity-item">
                         <h3>Activity 2</h3>
                         <p>Created a Registration Form.</p>
@@ -89,7 +99,25 @@
                 </a>
 
             </div>
+
+            <h1 style="margin-top: 3rem;">Upload <span>Activities</span></h1>
+            <form class="upload-form" onsubmit="event.preventDefault();">
+                <div class="form-group">
+                    <label>Activity Details</label>
+                    <input type="text" placeholder="Enter Activity Info..">
+                </div>
+                <div class="form-group">
+                    <label>Upload Activity File</label>
+                    <input type="file">
+                </div>
+                <div class="form-group">
+                    <label>Upload Activity Image</label>
+                    <input type="file" accept="image/*">
+                </div>
+                <button type="submit" class="btn-submit">Submit</button>
+            </form>
         </div>
     </section>
 </body>
+
 </html>
