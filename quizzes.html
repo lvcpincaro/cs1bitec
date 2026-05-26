@@ -8,6 +8,8 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
     <title>Quizzes - Portfolio</title>
     <style>
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;800&display=swap');
+
         * { margin: 0; padding: 0; box-sizing: border-box; }
 
         body { font-family: 'Poppins', sans-serif; min-height: 100vh; background-color: #442858; color: #fff; }
@@ -20,19 +22,62 @@
 
         nav a.active, nav a:hover { color: #f4bebe; transition: all .3s ease-in-out; }
 
-        section { margin: 2rem 8.5rem; }
+        section { margin: 2rem auto; max-width: 650px; padding: 0 1rem; }
 
-        .main { display: flex; flex-direction: column; margin: 5rem auto; }
+        .main { display: flex; flex-direction: column; margin-top: 3rem; }
 
-        .main h1 { font-size: 2.5rem; font-weight: 600; color: #fff; margin-bottom: 2rem; }
-
+        .main h1 { font-size: 2.5rem; font-weight: 600; color: #fff; margin-bottom: 1.5rem; text-align: center; }
         .main h1 span { color: #f4bebe; }
 
-        .upload-form { background: rgba(255, 255, 255, 0.05); padding: 2rem; border-radius: 15px; border: 1px solid rgba(244, 190, 190, 0.2); margin-top: 1rem; }
-        .form-group { margin-bottom: 1.5rem; }
-        .form-group label { display: block; margin-bottom: 0.5rem; font-weight: 600; color: #f4bebe; }
-        .form-group input, .form-group textarea { width: 100%; padding: 10px; background: #3a224a; border: 1px solid #f4bebe; color: white; border-radius: 5px; }
-        .btn-submit { background: #f4bebe; color: #442858; padding: 10px 25px; border: none; border-radius: 5px; font-weight: 800; cursor: pointer; transition: 0.3s; width: 100%; }
+        .quiz-carousel-box { width: 100%; height: 260px; background: #2f1a3a; border: 1px solid rgba(244, 190, 190, 0.2); border-radius: 15px 15px 0 0; border-bottom: none; overflow: hidden; position: relative; display: flex; align-items: center; justify-content: center; }
+        
+        .quiz-carousel-box img { width: 100%; height: 100%; object-fit: cover; opacity: 0.8; transition: 0.3s; }
+        .quiz-carousel-box:hover img { opacity: 0.95; }
+
+        .carousel-arrow {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            background: rgba(68, 40, 88, 0.8);
+            border: 1px solid rgba(244, 190, 190, 0.3);
+            color: #f4bebe;
+            font-size: 1.1rem;
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: 0.2s ease;
+            z-index: 5;
+        }
+        .prev-btn { left: 15px; }
+        .next-btn { right: 15px; }
+        
+        .carousel-arrow:hover {
+            background: #f4bebe;
+            color: #442858;
+            box-shadow: 0 0 10px #f4bebe;
+            transform: translateY(-50%) scale(1.05);
+        }
+
+        .carousel-overlay { position: absolute; bottom: 0; left: 0; right: 0; background: linear-gradient(transparent, rgba(68, 40, 88, 0.95)); padding: 2rem 1.5rem 0.8rem 1.5rem; display: flex; justify-content: space-between; align-items: flex-end; pointer-events: none; }
+        .carousel-info h3 { font-size: 1.1rem; color: #f4bebe; font-weight: 600; text-shadow: 1px 1px 3px rgba(0,0,0,0.5); }
+        .carousel-info p { font-size: 0.85rem; color: rgba(255,255,255,0.7); text-shadow: 1px 1px 3px rgba(0,0,0,0.5); }
+        
+        .carousel-dots { display: flex; gap: 6px; margin-bottom: 4px; pointer-events: auto; }
+        .dot { width: 8px; height: 8px; background: rgba(255,255,255,0.3); border-radius: 50%; }
+        .dot.active { background: #f4bebe; box-shadow: 0 0 8px #f4bebe; }
+
+        .upload-form { background: rgba(255, 255, 255, 0.05); padding: 2rem; border-radius: 0 0 15px 15px; border: 1px solid rgba(244, 190, 190, 0.2); box-shadow: 0 8px 32px rgba(0, 0, 0, 0.15); }
+        .form-group { margin-bottom: 1.2rem; }
+        .form-group label { display: block; margin-bottom: 0.5rem; font-weight: 600; color: #f4bebe; font-size: 0.95rem; }
+        .form-group input { width: 100%; padding: 11px; background: #3a224a; border: 1px solid rgba(244, 190, 190, 0.3); color: white; border-radius: 6px; font-family: inherit; transition: 0.3s; }
+        .form-group input:focus { outline: none; border-color: #f4bebe; }
+        .form-group input[type="file"] { padding: 8px; background: rgba(255,255,255,0.01); cursor: pointer; }
+        
+        .btn-submit { background: #f4bebe; color: #442858; padding: 12px 25px; border: none; border-radius: 6px; font-size: 1rem; font-weight: 800; cursor: pointer; transition: 0.3s; width: 100%; margin-top: 0.5rem; }
         .btn-submit:hover { background: white; }
 
         #click { display: none; }
@@ -41,9 +86,10 @@
         @media only screen and (max-width:480px) {
             .menu { display: block; font-size: 1.5rem; color: #f4bebe; }
             header { max-width: 100%; }
-            nav { position: absolute; display: grid; top: 75px; text-align: center; background-color: #442858; left: -100%; z-index: 1; width: 100%; padding: 1rem 0; }
+            nav { position: absolute; display: grid; top: 75px; text-align: center; background-color: #442858; left: -100%; z-index: 5; width: 100%; padding: 1rem 0; }
             #click:checked~nav { left: 0%; transition: all 0.3s ease; }
-            section { margin: 1rem 1.5rem; }
+            section { margin: 1rem auto; }
+            .carousel-arrow { width: 32px; height: 32px; font-size: 1rem; }
         }
     </style>
 </head>
@@ -55,41 +101,89 @@
         <label for="click" class="mainicon"><div class="menu"><i class="bi bi-list"></i></div></label>
         <nav>
             <a href="index.html">Home</a>
-             <a href="dashboard.html">Dashboard</a>
+            <a href="dashboard.html">Dashboard</a>
             <a href="activities.html">Activities</a>
             <a href="quizzes.html" class="active">Quizzes</a>
             <a href="exams.html">Exams</a>
         </nav>
     </header>
 
-    <section>
-        <div class="main">
-            <h1>Upload <span>Quizzes</span></h1>
+    <section class="main">
+        <h1>Upload <span>Quizzes</span></h1>
+        
+        <div class="quiz-carousel-box">
+            <button class="carousel-arrow prev-btn" onclick="changeSlide(-1)">
+                <i class="bi bi-chevron-left"></i>
+            </button>
+
+            <img id="quiz-display" src="quiz1.jpg" alt="Quiz Preview Display">
             
-            <form class="upload-form">
-                <div class="form-group">
-                    <label>Quiz Title</label>
-                    <input type="text" placeholder="Enter Quiz Number..">
+            <div class="carousel-overlay">
+                <div class="carousel-info">
+                    <h3 id="quiz-title">Quiz #1 Showcase</h3>
+                    <p id="quiz-sub">Cascading Style Sheets (CSS)</p>
                 </div>
-                <div class="form-group">
-                    <label>Description</label>
-                    <textarea rows="4" placeholder="Add a Description.."></textarea>
+                <div class="carousel-dots">
+                    <div class="dot active"></div>
+                    <div class="dot"></div>
+                    <div class="dot"></div>
                 </div>
-                <div class="form-group">
-                    <label>Upload Quiz File</label>
-                    <input type="file">
-                </div>
-                <div class="form-group">
-                    <label>Upload Image</label>
-                    <input type="file" accept="image/*">
-                </div>
-                <button type="submit" class="btn-submit">Submit</button>
-            </form>
+            </div>
+
+            <button class="carousel-arrow next-btn" onclick="changeSlide(1)">
+                <i class="bi bi-chevron-right"></i>
+            </button>
         </div>
+
+        <form class="upload-form" onsubmit="event.preventDefault();">
+            <div class="form-group">
+                <label>File Name</label>
+                <input type="text" placeholder="Enter your File Name">
+            </div>
+            <div class="form-group">
+                <label>Upload File</label>
+                <input type="file">
+            </div>
+            <div class="form-group">
+                <label>Upload Image</label>
+                <input type="file" accept="image/*">
+            </div>
+            <button type="submit" class="btn-submit">Submit</button>
+        </form>
     </section>
 
-    <style>
-        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;800&display=swap');
-    </style>
+    <script>
+       
+        const quizImages = ["quiz1.jpg", "quiz2.jpg", "quiz3.jpg", "quiz4.jpg"];
+        const quizTitles = ["Quiz #1 Showcase", "Quiz #2 Showcase", "Quiz #3 Showcase", "Quiz #4 Showcase"];
+        const quizSubtexts = ["Out of 20", "Out of 20", "Out of 20", "Out of 45"];
+        
+        let currentSlideIndex = 0;
+
+        function changeSlide(direction) {
+            currentSlideIndex += direction;
+
+            if (currentSlideIndex >= quizImages.length) {
+                currentSlideIndex = 0;
+            }
+            if (currentSlideIndex < 0) {
+                currentSlideIndex = quizImages.length - 1;
+            }
+
+            document.getElementById("quiz-display").src = quizImages[currentSlideIndex];
+            document.getElementById("quiz-title").textContent = quizTitles[currentSlideIndex];
+            document.getElementById("quiz-sub").textContent = quizSubtexts[currentSlideIndex];
+
+            const dots = document.querySelectorAll(".dot");
+            dots.forEach((dot, idx) => {
+                if (idx === currentSlideIndex) {
+                    dot.classList.add("active");
+                } else {
+                    dot.classList.remove("active");
+                }
+            });
+        }
+    </script>
 </body>
+
 </html>
