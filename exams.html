@@ -8,6 +8,8 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
     <title>Exams - Portfolio</title>
     <style>
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;800&display=swap');
+
         * { margin: 0; padding: 0; box-sizing: border-box; }
 
         body { font-family: 'Poppins', sans-serif; min-height: 100vh; background-color: #442858; color: #fff; }
@@ -20,42 +22,81 @@
 
         nav a.active, nav a:hover { color: #f4bebe; transition: all .3s ease-in-out; }
 
-        section { margin: 2rem 8.5rem; }
+        section { margin: 2rem auto; max-width: 650px; padding: 0 1rem; }
 
-        .main { display: flex; flex-direction: column; margin: 5rem auto; }
+        .main { display: flex; flex-direction: column; margin-top: 3rem; }
 
-        .main h1 { font-size: 2.5rem; font-weight: 600; color: #fff; margin-bottom: 2rem; text-align: center; }
-
+        .main h1 { font-size: 2.5rem; font-weight: 600; color: #fff; margin-bottom: 1.5rem; text-align: center; }
         .main h1 span { color: #f4bebe; }
 
-        .exam-container { display: grid; grid-template-columns: 1fr 1fr; gap: 40px; max-width: 900px; margin: 0 auto; }
+        .exam-display-box { width: 100%; height: 240px; background: rgba(255, 255, 255, 0.03); border: 1px solid rgba(244, 190, 190, 0.2); border-radius: 15px 15px 0 0; border-bottom: none; overflow: hidden; position: relative; display: flex; align-items: center; justify-content: center; }
+        
+        .symbol-state { display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; z-index: 2; transition: opacity 0.3s ease; }
+        .symbol-state i { font-size: 4rem; color: #f4bebe; margin-bottom: 0.8rem; display: block; filter: drop-shadow(0 4px 10px rgba(0,0,0,0.2)); }
+        .symbol-state h2 { font-size: 1.8rem; font-weight: 600; margin-bottom: 0.2rem; }
+        .symbol-state .exam-status { font-size: 1rem; color: rgba(255,255,255,0.6); font-weight: 300; }
 
-        .exam-card { background: rgba(255, 255, 255, 0.05); border: 2px solid rgba(244, 190, 190, 0.1); padding: 3rem 2rem; border-radius: 20px; text-align: center; transition: all 0.4s ease; }
+        .exam-display-box img { position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: cover; opacity: 0; transition: opacity 0.3s ease; z-index: 1; }
+        .exam-display-box img.visible { opacity: 0.8; }
+        .exam-display-box:hover img.visible { opacity: 0.95; }
 
-        .exam-card:hover { border-color: #f4bebe; background: rgba(244, 190, 190, 0.05); transform: scale(1.05); box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3); }
+        .carousel-arrow {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            background: rgba(68, 40, 88, 0.8);
+            border: 1px solid rgba(244, 190, 190, 0.3);
+            color: #f4bebe;
+            font-size: 1.1rem;
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: 0.2s ease;
+            z-index: 5;
+        }
+        .prev-btn { left: 15px; }
+        .next-btn { right: 15px; }
+        
+        .carousel-arrow:hover {
+            background: #f4bebe;
+            color: #442858;
+            box-shadow: 0 0 10px #f4bebe;
+            transform: translateY(-50%) scale(1.05);
+        }
 
-        .exam-card i { font-size: 4rem; color: #f4bebe; margin-bottom: 1.5rem; display: block; }
+        .carousel-overlay { position: absolute; bottom: 0; left: 0; right: 0; background: linear-gradient(transparent, rgba(68, 40, 88, 0.95)); padding: 2rem 1.5rem 0.8rem 1.5rem; display: flex; justify-content: space-between; align-items: flex-end; z-index: 3; opacity: 0; pointer-events: none; transition: opacity 0.3s ease; }
+        .carousel-overlay.visible { opacity: 1; }
+        .carousel-info h3 { font-size: 1.1rem; color: #f4bebe; font-weight: 600; text-shadow: 1px 1px 3px rgba(0,0,0,0.5); }
+        .carousel-info p { font-size: 0.85rem; color: rgba(255,255,255,0.7); text-shadow: 1px 1px 3px rgba(0,0,0,0.5); }
+        
+        .carousel-dots { display: flex; gap: 6px; margin-bottom: 4px; pointer-events: auto; }
+        .dot { width: 8px; height: 8px; background: rgba(255,255,255,0.3); border-radius: 50%; transition: 0.3s; }
+        .dot.active { background: #f4bebe; box-shadow: 0 0 8px #f4bebe; }
 
-        .upload-form { background: rgba(255, 255, 255, 0.05); padding: 2rem; border-radius: 15px; border: 1px solid rgba(244, 190, 190, 0.2); margin-top: 3rem; max-width: 900px; margin-left: auto; margin-right: auto; }
-        .form-group { margin-bottom: 1.5rem; }
-        .form-group label { display: block; margin-bottom: 0.5rem; font-weight: 600; color: #f4bebe; }
-        .form-group input { width: 100%; padding: 10px; background: #3a224a; border: 1px solid #f4bebe; color: white; border-radius: 5px; }
-        .btn-submit { background: #f4bebe; color: #442858; padding: 10px 25px; border: none; border-radius: 5px; font-weight: 800; cursor: pointer; transition: 0.3s; width: 100%; }
+        .upload-form { background: rgba(255, 255, 255, 0.05); padding: 2rem; border-radius: 0 0 15px 15px; border: 1px solid rgba(244, 190, 190, 0.2); box-shadow: 0 8px 32px rgba(0, 0, 0, 0.15); }
+        .form-group { margin-bottom: 1.2rem; }
+        .form-group label { display: block; margin-bottom: 0.5rem; font-weight: 600; color: #f4bebe; font-size: 0.95rem; }
+        .form-group input { width: 100%; padding: 11px; background: #3a224a; border: 1px solid rgba(244, 190, 190, 0.3); color: white; border-radius: 6px; font-family: inherit; transition: 0.3s; }
+        .form-group input:focus { outline: none; border-color: #f4bebe; }
+        .form-group input[type="file"] { padding: 8px; background: rgba(255,255,255,0.01); cursor: pointer; }
+        
+        .btn-submit { background: #f4bebe; color: #442858; padding: 12px 25px; border: none; border-radius: 6px; font-size: 1rem; font-weight: 800; cursor: pointer; transition: 0.3s; width: 100%; margin-top: 0.5rem; }
         .btn-submit:hover { background: white; }
 
         #click { display: none; }
         .menu { display: none; }
 
-        @media only screen and (max-width:768px) {
-            .exam-container { grid-template-columns: 1fr; }
-            section { margin: 2rem 2rem; }
-        }
-
         @media only screen and (max-width:480px) {
             .menu { display: block; font-size: 1.5rem; color: #f4bebe; }
             header { max-width: 100%; }
-            nav { position: absolute; display: grid; top: 75px; text-align: center; background-color: #442858; left: -100%; z-index: 1; width: 100%; padding: 1rem 0; }
+            nav { position: absolute; display: grid; top: 75px; text-align: center; background-color: #442858; left: -100%; z-index: 5; width: 100%; padding: 1rem 0; }
             #click:checked~nav { left: 0%; transition: all 0.3s ease; }
+            section { margin: 1rem auto; }
+            .carousel-arrow { width: 32px; height: 32px; font-size: 1rem; }
         }
     </style>
 </head>
@@ -74,32 +115,110 @@
         </nav>
     </header>
 
-    <section>
-        <div class="main">
-            <h1>Course <span>Exams</span></h1>
-            
-            <div class="exam-container">
-                <div class="exam-card"><i class="bi bi-trophy"></i><h2>Midterm</h2><div class="exam-status">N/A</div></div>
-                <div class="exam-card"><i class="bi bi-mortarboard"></i><h2>Finals</h2><div class="exam-status">N/A</div></div>
+    <section class="main">
+        <h1>Course <span>Exams</span></h1>
+        
+        <div class="exam-display-box">
+            <button class="carousel-arrow prev-btn" onclick="changeSlide(-1)">
+                <i class="bi bi-chevron-left"></i>
+            </button>
+
+            <div id="symbol-view" class="symbol-state">
+                <i id="exam-icon" class="bi bi-trophy"></i>
+                <h2 id="exam-status-title">Midterm</h2>
+                <div class="exam-status">Status: N/A</div>
             </div>
 
-            <h1 style="margin-top: 3rem;">Upload <span>Exams</span></h1>
-            <form class="upload-form">
-                <div class="form-group">
-                    <label>Exam Details</label>
-                    <input type="text" placeholder="Enter Exam Info..">
+            <img id="exam-image-display" src="" alt="Exam Paper Screenshot">
+            
+            <div id="text-overlay" class="carousel-overlay">
+                <div class="carousel-info">
+                    <h3 id="carousel-title">Midterm Exam Paper</h3>
+                    <p id="carousel-subtext">Computer Science Fundamentals</p>
                 </div>
-                <div class="form-group">
-                    <label>Upload Exam File</label>
-                    <input type="file">
+                <div class="carousel-dots">
+                    <div class="dot active"></div>
+                    <div class="dot"></div>
+                    <div class="dot"></div>
                 </div>
-                <div class="form-group">
-                    <label>Upload Exam Image</label>
-                    <input type="file" accept="image/*">
-                </div>
-                <button type="submit" class="btn-submit">Submit</button>
-            </form>
+            </div>
+
+            <button class="carousel-arrow next-btn" onclick="changeSlide(1)">
+                <i class="bi bi-chevron-right"></i>
+            </button>
         </div>
+
+        <form class="upload-form" onsubmit="event.preventDefault();">
+            <div class="form-group">
+                <label>Exam Details</label>
+                <input type="text" placeholder="Enter Exam Info..">
+            </div>
+            <div class="form-group">
+                <label>Upload Exam File</label>
+                <input type="file">
+            </div>
+            <div class="form-group">
+                <label>Upload Exam Image</label>
+                <input type="file" accept="image/*">
+            </div>
+            <button type="submit" class="btn-submit">Submit</button>
+        </form>
     </section>
+
+    <script>
+        const slides = [
+            { type: "symbol", title: "Midterm", icon: "bi-trophy", status: "N/A" },
+            { type: "symbol", title: "Finals", icon: "bi-mortarboard", status: "N/A" },
+            { type: "image",  title: "Exam Showcase Sheet", subtext: "Web Design Core Essentials", img: "exam_paper1.jpg" }
+        ];
+
+        let currentSlideIndex = 0;
+
+        function changeSlide(direction) {
+            currentSlideIndex += direction;
+
+            if (currentSlideIndex >= slides.length) {
+                currentSlideIndex = 0;
+            }
+            if (currentSlideIndex < 0) {
+                currentSlideIndex = slides.length - 1;
+            }
+
+            const currentData = slides[currentSlideIndex];
+            
+            const symbolView = document.getElementById("symbol-view");
+            const imageDisplay = document.getElementById("exam-image-display");
+            const textOverlay = document.getElementById("text-overlay");
+
+            if (currentData.type === "symbol") {
+                symbolView.style.display = "flex";
+                symbolView.style.opacity = "1";
+                imageDisplay.classList.remove("visible");
+                textOverlay.classList.remove("visible");
+
+                document.getElementById("exam-icon").className = `bi ${currentData.icon}`;
+                document.getElementById("exam-status-title").textContent = currentData.title;
+
+            } else if (currentData.type === "image") {
+                symbolView.style.display = "none";
+                imageDisplay.src = currentData.img;
+                imageDisplay.classList.add("visible");
+                textOverlay.classList.add("visible");
+
+                document.getElementById("carousel-title").textContent = currentData.title;
+                document.getElementById("carousel-subtext").textContent = currentData.subtext;
+            }
+
+            const dots = document.querySelectorAll(".dot");
+            dots.forEach((dot, idx) => {
+                if (idx === currentSlideIndex) {
+                    dot.classList.add("active");
+                } else {
+                    dot.classList.remove("active");
+                }
+            });
+        }
+    </script>
 </body>
+
 </html>
