@@ -117,11 +117,6 @@
 
     <section class="main">
         <h1>Course <span>Exams</span></h1>
-
-         <div class="notice-banner">
-            <i class="bi bi-folder-symlink"></i>
-            <span><strong>Note:</strong> I also.. misplaced this. ;; My memory is really bad, I can't even remember what score I got I'm so sorry. ;; Will update when found TT</span>
-        </div>
         
         <div class="exam-display-box">
             <button class="carousel-arrow prev-btn" onclick="changeSlide(-1)">
@@ -139,12 +134,12 @@
             <div id="text-overlay" class="carousel-overlay">
                 <div class="carousel-info">
                     <h3 id="carousel-title">Midterm Exam Paper</h3>
+                    <p id="carousel-subtext">Computer Science</p> 
                 </div>
                 <div class="carousel-dots">
                     <div class="dot active"></div>
                     <div class="dot"></div>
-                    <div class="dot"></div>
-                </div>
+                    <div class="dot"></div> </div>
             </div>
 
             <button class="carousel-arrow next-btn" onclick="changeSlide(1)">
@@ -171,7 +166,8 @@
 
     <script>
         const slides = [
-            { type: "symbol", title: "Midterm", icon: "bi-trophy", status: "N/A" },
+            { type: "symbol", title: "Midterm", icon: "bi-trophy", status: "DONE" },
+            { type: "image", img: "midterms.jpg", title: "Midterm Exam Paper", subtext: "First Sem" },
             { type: "symbol", title: "Finals", icon: "bi-mortarboard", status: "N/A" },
         ];
 
