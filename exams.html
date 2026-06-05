@@ -146,7 +146,14 @@
             <button class="carousel-arrow prev-btn" onclick="changeSlide(-1)">
                 <i class="bi bi-chevron-left"></i>
             </button>
-            <img id="midterms.jpg" src="" alt="Exam Paper Screenshot">
+
+            <div id="symbol-view" class="symbol-state">
+                <i id="exam-icon" class="bi bi-trophy"></i>
+                <h2 id="exam-status-title">Exam</h2>
+                <div class="exam-status">Status: N/A</div>
+            </div>
+
+            <img id="exam-image-display" src="" alt="Exam Paper Screenshot">
             
             <div id="text-overlay" class="carousel-overlay">
                 <div class="carousel-info">
@@ -155,7 +162,6 @@
                 </div>
                 <div class="carousel-dots">
                     <div class="dot active"></div>
-                    <div class="dot"></div>
                     <div class="dot"></div>
                 </div>
             </div>
@@ -189,6 +195,10 @@
         ];
 
         let currentSlideIndex = 0;
+
+        window.addEventListener("DOMContentLoaded", () => {
+            changeSlide(0);
+        });
 
         function changeSlide(direction) {
             currentSlideIndex += direction;
