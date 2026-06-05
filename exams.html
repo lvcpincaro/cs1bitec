@@ -29,14 +29,37 @@
         .main h1 { font-size: 2.5rem; font-weight: 600; color: #fff; margin-bottom: 1.5rem; text-align: center; }
         .main h1 span { color: #f4bebe; }
 
-        .exam-display-box { width: 100%; height: 240px; background: rgba(255, 255, 255, 0.03); border: 1px solid rgba(244, 190, 190, 0.2); border-radius: 15px 15px 0 0; border-bottom: none; overflow: hidden; position: relative; display: flex; align-items: center; justify-content: center; }
+        .exam-display-box { 
+            width: 100%; 
+            height: 480px; 
+            background: #2f1a3a; 
+            border: 1px solid rgba(244, 190, 190, 0.2); 
+            border-radius: 15px 15px 0 0; 
+            border-bottom: none; 
+            overflow: hidden; 
+            position: relative; 
+            display: flex; 
+            align-items: center; 
+            justify-content: center; 
+        }
         
         .symbol-state { display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; z-index: 2; transition: opacity 0.3s ease; }
         .symbol-state i { font-size: 4rem; color: #f4bebe; margin-bottom: 0.8rem; display: block; filter: drop-shadow(0 4px 10px rgba(0,0,0,0.2)); }
         .symbol-state h2 { font-size: 1.8rem; font-weight: 600; margin-bottom: 0.2rem; }
         .symbol-state .exam-status { font-size: 1rem; color: rgba(255,255,255,0.6); font-weight: 300; }
 
-        .exam-display-box img { position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: cover; opacity: 0; transition: opacity 0.3s ease; z-index: 1; }
+        .exam-display-box img { 
+            position: absolute; 
+            top: 0; 
+            left: 0; 
+            width: 100%; 
+            height: 100%; 
+            object-fit: contain; 
+            background-color: #2f1a3a;
+            opacity: 0; 
+            transition: opacity 0.3s ease; 
+            z-index: 1; 
+        }
         .exam-display-box img.visible { opacity: 0.8; }
         .exam-display-box:hover img.visible { opacity: 0.95; }
 
@@ -96,6 +119,7 @@
             nav { position: absolute; display: grid; top: 75px; text-align: center; background-color: #442858; left: -100%; z-index: 5; width: 100%; padding: 1rem 0; }
             #click:checked~nav { left: 0%; transition: all 0.3s ease; }
             section { margin: 1rem auto; }
+            .exam-display-box { height: 320px; }
             .carousel-arrow { width: 32px; height: 32px; font-size: 1rem; }
         }
     </style>
@@ -139,7 +163,8 @@
                 <div class="carousel-dots">
                     <div class="dot active"></div>
                     <div class="dot"></div>
-                    <div class="dot"></div> </div>
+                    <div class="dot"></div>
+                </div>
             </div>
 
             <button class="carousel-arrow next-btn" onclick="changeSlide(1)">
@@ -166,8 +191,7 @@
 
     <script>
         const slides = [
-            { type: "symbol", title: "Midterm", icon: "bi-trophy", status: "DONE" },
-            { type: "image", img: "midterms.jpg", title: "Midterm Exam Paper", subtext: "First Sem" },
+            { type: "image", img: "midterm.jpg", title: "Midterm Exam Paper", subtext: "First Sem" },
             { type: "symbol", title: "Finals", icon: "bi-mortarboard", status: "N/A" },
         ];
 
